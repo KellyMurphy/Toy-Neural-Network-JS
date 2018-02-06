@@ -13,32 +13,108 @@ let training_data = [{
   targets: [0]
 }];
 
+let hn_slider;
+let nnReset_btn;
 let lr_slider;
 let lr_para;
 let train_cb;
 let train_running;
+let ti_slider;
+let cnv;
+let trainOneShot_btn;
 
 function setup() {
-  createCanvas(400, 400);
-  nn = new NeuralNetwork(2, 4, 1);
-  lr_slider = createSlider(0.01, 0.1, 0.05, 0.01);
-  //lr_para = createElement('p', '.1');
-  train_cb = createCheckbox("Training", 0);
+  cnv = createCanvas(400, 400);
+  nn = new NeuralNetwork(2, 2, 1);
+  nn.learning_rate = 0.05;
+  layoutUI();
   train_cb.changed(trainingEnabled)
-  train_running=0
-
-}
-
-function trainingEnabled() {
-  train_running = this.checked();
+  train_running = 0
 }
 
 function draw() {
   nn.learning_rate = lr_slider.value();
   if (train_running) {
-    train(5000);
+    var trainIttr = ti_slider.value();
+    train(trainIttr);
   }
   updateCanvas();
+}
+
+function layoutUI() {
+
+  // center the canvas on the page.
+  centerCanvas();
+
+  // Setup Slider for number of hidden nodes
+  createP('Hidden Nodes: 2').id('hnodes');
+  hn_slider = createSlider(2, 32, 2);
+  hn_slider.changed(updateHNSlider);
+
+  // Create Button to reset NN and update nidden nodes.
+  nnReset_btn = createButton('Reset NN');
+  nnReset_btn.mouseClicked(resetNN);
+
+  // Setup Slider for Training Rate
+  createP('Training Rate: ' + nn.learning_rate).id('trate');
+  lr_slider = createSlider(0.01, 0.1, 0.05, 0.01);
+  lr_slider.changed(updateLRSlider);
+
+  // Setup Slider for training itterations per loop.
+  createP('Train count per loop: 2500').id('LC');
+  ti_slider = createSlider(10, 5000, 2500, 10);
+  ti_slider.changed(ti_sliderChanged);
+
+  // Create Button to train 1 itteration of training
+  trainOneShot_btn = createButton('Train One Ittr');
+  trainOneShot_btn.mouseClicked(trainOneShot);
+
+  // Create Checkbox to enable training on each Draw Loop
+  train_cb = createCheckbox("Loop Train", 0);
+}
+
+// Update to display Learning rate on page
+function updateHNSlider() {
+  var hidenNodes = hn_slider.value();
+  var elt = document.getElementById("hnodes");
+  elt.innerText = 'Hidden Nodes(after reset): ' + hidenNodes;
+}
+
+// Reset NN with new Hidden Node Count
+function resetNN() {
+  var hiddenNodes = hn_slider.value();
+  var elt = document.getElementById("hnodes");
+  elt.innerText = 'Hidden Nodes: ' + hiddenNodes;
+  nn = new NeuralNetwork(2, hiddenNodes, 1);
+}
+
+// Update to display Learning rate on page
+function updateLRSlider() {
+  var elt = document.getElementById("trate");
+  elt.innerText = 'Training Rate: ' + nn.learning_rate;
+}
+
+// Update to display Trining/Itteration on page
+function ti_sliderChanged() {
+  var elt = document.getElementById("LC");
+  var trainIttr = ti_slider.value();
+  elt.innerText = 'Training Rate: ' + trainIttr;
+}
+
+function centerCanvas() {
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  cnv.position(x, y);
+}
+
+// Run through 1 itteration of training.
+function trainOneShot() {
+  var trainIttr = ti_slider.value();
+  train(trainIttr);
+}
+
+function trainingEnabled() {
+  train_running = this.checked();
 }
 
 function train(n) {
