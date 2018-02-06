@@ -62,7 +62,7 @@ let cnv;
 let trainOneShot_btn;
 
 // Uncomment to use modified training data
-//let training_data = modified_training_data;
+training_data = modified_training_data;
 
 function setup() {
   cnv = createCanvas(400, 400);
