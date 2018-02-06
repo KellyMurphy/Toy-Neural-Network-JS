@@ -12,6 +12,44 @@ let training_data = [{
   targets: [0]
 }];
 
+// Modified Training data
+////////////////////////
+//  0              1
+//     1       0
+//        .5
+//     0       1
+//  1              0
+////////////////////////
+
+let modified_training_data = [{
+  inputs: [0, 0],
+  targets: [0]
+}, {
+  inputs: [1, 0],
+  targets: [1]
+}, {
+  inputs: [0, 1],
+  targets: [1]
+}, {
+  inputs: [1, 1],
+  targets: [0]
+}, {
+  inputs: [.25, .25],
+  targets: [1]
+}, {
+  inputs: [.75, .25],
+  targets: [0]
+}, {
+  inputs: [.25, .75],
+  targets: [0]
+}, {
+  inputs: [.75, .75],
+  targets: [1]
+},{
+  inputs: [.5, .5],
+  targets: [.5]
+}];
+
 let nn;
 let hn_slider;
 let nnReset_btn;
@@ -22,6 +60,9 @@ let train_running;
 let ti_slider;
 let cnv;
 let trainOneShot_btn;
+
+// Uncomment to use modified training data
+//let training_data = modified_training_data;
 
 function setup() {
   cnv = createCanvas(400, 400);

@@ -4,7 +4,19 @@ XOR Example for JavaScript NN library for Coding Train tutorials
 
 ## Getting Started
 
-TODO
+There are 2 sets of training data.
+* The standard XOR dataset
+* A Modified dataset
+    * Uncomment the assignment line to use it.
+    * Minimum Hidden nodes needed to solve seems to be about 8.
+    * The data points are like the following
+
+          0              1
+             1       0
+                .5
+             0       1
+          1              0
+
 
 ### Prerequisites
 
