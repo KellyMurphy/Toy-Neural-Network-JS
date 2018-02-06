@@ -1,4 +1,3 @@
-let nn;
 let training_data = [{
   inputs: [0, 0],
   targets: [0]
@@ -13,6 +12,7 @@ let training_data = [{
   targets: [0]
 }];
 
+let nn;
 let hn_slider;
 let nnReset_btn;
 let lr_slider;
@@ -44,7 +44,9 @@ function draw() {
 function layoutUI() {
 
   // center the canvas on the page.
-  centerCanvas();
+  var x = (windowWidth - width) / 2;
+  var y = (windowHeight - height) / 2;
+  cnv.position(x, y);
 
   // Setup Slider for number of hidden nodes
   createP('Hidden Nodes: 2').id('hnodes');
@@ -99,12 +101,6 @@ function ti_sliderChanged() {
   var elt = document.getElementById("LC");
   var trainIttr = ti_slider.value();
   elt.innerText = 'Training Rate: ' + trainIttr;
-}
-
-function centerCanvas() {
-  var x = (windowWidth - width) / 2;
-  var y = (windowHeight - height) / 2;
-  cnv.position(x, y);
 }
 
 // Run through 1 itteration of training.
